@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cahaya Bakery</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel='website icon' type='kue.jpeg' href='kue.jpeg'>
+
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div id="mySidebar" class="sidebar">
+        <span class="closebtn" onclick="closeNav()">×</span>
+        <li><a href="index.html">kue ultah</a></li>
+        <li><a href="basah.html">kue basah</a></li>
+    </div>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <button class="menu-btn" onclick="openNav()">☰</button>
+        <h1>Cahaya Bakery</h1>
+    </div>
+
+    <main>
+        <section class="products">
+            <div class="product">
+                <img src="E:\web_kue\foto kue\Screenshot 2025-10-30 082439.png" alt="copi">
+                <h3>kue 1</h3>
+                <p>Rp 17.000</p>
+                <button onclick="addToCart(0)">Tambah ke Keranjang</button>
+            </div>
+
+            <div class="product">
+                <img src="E:\web_kue\foto kue\Screenshot 2025-10-30 083427.png" alt="copi">
+                <h3>kue 2</h3>
+                <p>Rp 15.000</p>
+                <button onclick="addToCart(1)">Tambah ke Keranjang</button>
+            </div>
+
+            <div class="product">
+                <img src="E:\web_kue\foto kue\Screenshot 2025-10-30 083451.png" alt="copi">
+                <h3>kue 3</h3>
+                <p>Rp 12.000</p>
+                <button onclick="addToCart(2)">Tambah ke Keranjang</button>
+            </div>
+
+            <div class="product">
+                <img src="E:\web_kue\foto kue\Screenshot 2025-10-30 083519.png" alt="copi">
+                <h3>kue 4</h3>
+                <p>Rp 19.000</p>
+                <button onclick="addToCart(3)">Tambah ke Keranjang</button>
+            </div>
+
+            <div class="product">
+                <img src="E:\web_kue\foto kue\Screenshot 2025-10-30 083546.png" alt="copi">
+                <h3>kue 5</h3>
+                <p>Rp 20.000</p>
+                <button onclick="addToCart(4)">Tambah ke Keranjang</button>
+            </div>
+
+            <div class="product">
+                <img src="E:\web_kue\foto kue\Screenshot 2025-10-30 083611.png" alt="copi">
+                <h3>kue 6</h3>
+                <p>Rp 50.000</p>
+                <button onclick="addToCart(5)">Tambah ke Keranjang</button>
+            </div>
+            <div class="product">
+                <img src="E:\web_kue\foto kue\Screenshot 2025-10-30 083656.png" alt="copi">
+                <h3>kue 7</h3>
+                <p>Rp 30.000</p>
+                <button onclick="addToCart(6)">Tambah ke Keranjang</button>
+            </div>
+            <div class="product">
+                <img src="foto kue/Screenshot 2025-10-30 083717.png" alt="copi">
+                <h3>kue 8</h3>
+                <p>Rp 70.000</p>
+                <button onclick="addToCart(7)">Tambah ke Keranjang</button>
+            </div>
+
+
+
+        </section>
+
+        <section class="cart">
+            <h2>Keranjang Belanja</h2>
+            <ul id="cart-items"></ul>
+            <p class="total"><strong>Total: Rp <span id="total">0</span></strong></p>
+
+            <!-- Tombol WhatsApp di dalam keranjang -->
+            <a id="wa-button" href="#" target="_blank" class="btn-wa">Pesan via WhatsApp</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Cahaya Bakery | Dibuat dengan ❤️ </p>
+    </footer>
+
+    <script>
+        const products = [
+            { name: "kue 1", price: 17000 },
+            { name: "kue 2", price: 15000 },
+            { name: "Kue 3", price: 12000 },
+            { name: "Kue 4", price: 19000 },
+            { name: "Kue 5", price: 20000 },
+            { name: "Kue 6", price: 50000 },
+            { name: "Kue 7", price: 30000 },
+            { name: "Kue 8", price: 70000 },
+        ];
+
+        let cart = [];
+        let total = 0;
+
+        function addToCart(index) {
+            const product = products[index];
+            cart.push(product);
+            total += product.price;
+            renderCart();
+        }
+
+        function removeItem(index) {
+            total -= cart[index].price;
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartItems = document.getElementById("cart-items");
+            const totalDisplay = document.getElementById("total");
+            cartItems.innerHTML = "";
+
+            cart.forEach((item, i) => {
+                const li = document.createElement("li");
+                li.innerHTML = `${item.name} - Rp ${item.price.toLocaleString()} 
+          <button onclick="removeItem(${i})" class="remove-btn">×</button>`;
+                cartItems.appendChild(li);
+            });
+
+            totalDisplay.textContent = total.toLocaleString();
+
+            // Buat pesan WhatsApp otomatis
+            let waMessage = "Halo Cahaya Bakery! Saya ingin memesan:\n";
+            cart.forEach(item => {
+                waMessage += `- ${item.name} (Rp ${item.price.toLocaleString()})\n`;
+            });
+            waMessage += `Total: Rp ${total.toLocaleString()}`;
+
+            const phone = "6281958794091"; // ganti dengan nomor WA toko kamu
+            document.getElementById("wa-button").href =
+                `https://wa.me/${phone}?text=${encodeURIComponent(waMessage)}`;
+
+        }
+
+        <!-- Sidebar -->
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+
+        function showCategory(category) {
+            document.getElementById("basah").style.display = "none";
+            document.getElementById("kering").style.display = "none";
+
+            document.getElementById(category).style.display = "flex";
+            closeNav();
+        }
+    </script>
+</body>
+
+</html>
